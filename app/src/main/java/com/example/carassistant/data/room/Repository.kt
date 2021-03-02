@@ -2,6 +2,7 @@ package com.example.carassistant.data.room
 
 import com.example.carassistant.data.entities.Car
 import com.example.carassistant.data.entities.Service
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -15,5 +16,11 @@ class Repository @Inject constructor(
     fun getCar() = db.getDao().getCar()
 
     suspend fun insertService(service: Service) = db.getDao().insertService(service)
+
+    fun getLastRefuel() = db.getDao().getLastRefuel()
+
+    fun getLastService() = db.getDao().getLastService()
+
+    fun getLastBigService() = db.getDao().getLastBigService()
 
 }

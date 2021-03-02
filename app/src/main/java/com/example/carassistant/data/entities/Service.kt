@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class Service(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    val serviceType: String,
     val date: String,
     val price: Float,
     val description: String

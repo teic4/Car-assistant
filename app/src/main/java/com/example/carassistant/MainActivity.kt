@@ -1,17 +1,28 @@
 package com.example.carassistant
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.carassistant.databinding.ActivityMainBinding
+import com.example.carassistant.util.exhaustive
+import com.google.android.material.snackbar.Snackbar
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +58,39 @@ class MainActivity : AppCompatActivity() {
         tvNotifications.setOnClickListener {
             navController.navigate(R.id.action_global_notificationSettings)
             navigation.closeMenu(true)
+        }
+
+        val tvJoinCommunity = findViewById<TextView>(R.id.tv_join_community)
+
+        viewModel.carLiveData.observe(this) { car->
+            tvJoinCommunity.setOnClickListener {
+                Log.d("TAG", "aghdf")
+                viewModel.onJoinCommunityClick(car)
+            }
+        }
+
+        val tvAboutUs = findViewById<TextView>(R.id.tv_about_us)
+        tvAboutUs.setOnClickListener {
+            Snackbar.make(binding.root, "Our app is still in alpha version...", Snackbar.LENGTH_SHORT).show()
+        }
+
+        val tvNightMode = findViewById<TextView>(R.id.tv_night_mode)
+        tvNightMode.setOnClickListener {
+            Snackbar.make(binding.root, "Our app is still in alpha version...", Snackbar.LENGTH_SHORT).show()
+        }
+
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.mainActivityEvents.collectLatest { event ->
+                when(event) {
+                    is MainActivityViewModel.MainActivityEvents.JoinCommunity -> {
+                        Log.d("TAG", "${event.url}")
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(event.url)))
+                    }
+                }.exhaustive
+
+
+            }
         }
 
     }

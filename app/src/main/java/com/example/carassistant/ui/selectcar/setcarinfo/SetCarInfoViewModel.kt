@@ -17,8 +17,8 @@ class SetCarInfoViewModel @ViewModelInject constructor(
     val setCarInfoEvents = setCarInfoEventsChannel.receiveAsFlow()
 
     fun onConfirmClick(day: String, month: String) = viewModelScope.launch{
-        val date = "$day.$month"
-        val service = Service(1, date, 2000f, "Registration and insurance")
+        val date = "$day.$month.2021."
+        val service = Service(1, "", date,2000f, "Registration and insurance")
         repository.insertService(service)
         setCarInfoEventsChannel.send(SetCarInfoEvents.CarInfoSetUp)
     }

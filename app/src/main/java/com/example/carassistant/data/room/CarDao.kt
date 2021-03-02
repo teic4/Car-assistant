@@ -23,5 +23,13 @@ interface CarDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE, entity = Service::class)
     suspend fun insertService(service: Service)
 
+    @Query("SELECT * FROM SERVICE WHERE serviceType == 'Refuel' ORDER BY id LIMIT 1")
+    fun getLastRefuel(): Flow<Service>
+
+    @Query("SELECT * FROM SERVICE WHERE serviceType == 'Service' ORDER BY id LIMIT 1")
+    fun getLastService(): Flow<Service>
+
+    @Query("SELECT * FROM SERVICE WHERE serviceType == 'Big service' ORDER BY id LIMIT 1")
+    fun getLastBigService(): Flow<Service>
 
 }

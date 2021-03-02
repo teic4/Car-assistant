@@ -8,7 +8,7 @@ import com.example.carassistant.data.entities.Service
 
 @Database(
     entities = [Car::class, Service::class],
-    version = 7
+    version = 8
 )
 abstract class CarAssistantDatabase() : RoomDatabase() {
 

@@ -59,4 +59,11 @@
         <item>12</item>
     </string-array>
 
+    <string-array name="types_of_services">
+        <item>Refuel</item>
+        <item>Service</item>
+        <item>Big service</item>
+        <item>Registration</item>
+    </string-array>
+
 </resources>
